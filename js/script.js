@@ -24,7 +24,8 @@ class ToDo {
   createItem(todo) {
     const li = document.createElement("li");
     li.classList.add("todo-item");
-    li.key = todo.key;
+    // li.key = todo.key;
+    li.setAttribute("key", todo.key);
     li.insertAdjacentHTML(
       "beforeend",
       `
@@ -62,12 +63,23 @@ class ToDo {
     );
   }
 
-  deleteItem() {}
+  deleteItem(elem) {
+    [...this.todoData].forEach(function (item) {
+      if (elem === item[0]) {
+        console.log(item[1]);
+        console.log(item);
+        // this.todoData.delete(item);
+      }
+    });
+  }
 
-  completedItem() {
-    this.todoData.forEach(function (item) {
-      if (item.key === li.key) {
-        console.log(1);
+  completedItem(elem) {
+    [...this.todoData].forEach(function (item) {
+      if (elem === item[0]) {
+        // console.log(elem);
+        // console.log(item[0]);
+        // console.log(item[1].completed);
+        item[1].completed = !item[1].completed;
       }
     });
   }
@@ -75,12 +87,12 @@ class ToDo {
   hendler() {
     let todoContainer = document.querySelector(".todo-container");
     todoContainer.addEventListener("click", (event) => {
-      const target = event.target;
+      let target = event.target;
 
       if (target.closest(".todo-complete")) {
-        this.completedItem();
+        this.completedItem(target.closest("li").getAttribute("key"));
       } else if (target.closest(".todo-remove")) {
-        this.deleteItem();
+        this.deleteItem(target.closest("li").getAttribute("key"));
       }
       this.render();
     });
