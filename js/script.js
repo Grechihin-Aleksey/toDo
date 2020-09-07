@@ -58,7 +58,6 @@ class ToDo {
     } else {
       alert("Заполните поле.");
     }
-    
   }
 
   generateKey() {
@@ -69,14 +68,7 @@ class ToDo {
   }
 
   deleteItem(elem) {
-    [...this.todoData].forEach((item, index) => {
-      if (elem === item[0]) {
-        let i = [...this.todoData].filter((item) => item[0] !== elem);
-        this.todoData = i.splice(0);
-        console.log(this.todoData);
-      }
-      localStorage.setItem("toDoList", JSON.stringify([...this.todoData]));
-    });
+    this.todoData.delete(elem);
     this.render();
   }
 
