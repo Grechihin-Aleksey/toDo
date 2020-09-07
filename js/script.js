@@ -25,6 +25,7 @@ class ToDo {
     const li = document.createElement("li");
     li.classList.add("todo-item");
     // li.key = todo.key;
+
     li.setAttribute("key", todo.key);
     li.insertAdjacentHTML(
       "beforeend",
@@ -36,6 +37,7 @@ class ToDo {
             </div>
     `
     );
+
     if (todo.completed) {
       this.todoCompleted.append(li);
     } else {
@@ -53,7 +55,10 @@ class ToDo {
       };
       this.todoData.set(newTodo.key, newTodo);
       this.render();
+    } else {
+      alert("Заполните поле.");
     }
+    
   }
 
   generateKey() {
@@ -64,13 +69,15 @@ class ToDo {
   }
 
   deleteItem(elem) {
-    [...this.todoData].forEach(function (item) {
+    [...this.todoData].forEach((item, index) => {
       if (elem === item[0]) {
-        console.log(item[1]);
-        console.log(item);
-        // this.todoData.delete(item);
+        let i = [...this.todoData].filter((item) => item[0] !== elem);
+        this.todoData = i.splice(0);
+        console.log(this.todoData);
       }
+      localStorage.setItem("toDoList", JSON.stringify([...this.todoData]));
     });
+    this.render();
   }
 
   completedItem(elem) {
@@ -100,6 +107,7 @@ class ToDo {
 
   init() {
     this.form.addEventListener("submit", this.addTodo.bind(this));
+
     this.render();
   }
 }
@@ -110,5 +118,6 @@ const todo = new ToDo(
   ".todo-list",
   ".todo-completed"
 );
+
 todo.hendler();
 todo.init();
